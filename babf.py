@@ -13,7 +13,7 @@ request_counter = 0
 
 def load_file(file_path):
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
             return [line.strip() for line in f if line.strip()]
     except FileNotFoundError:
         with print_lock:
@@ -68,7 +68,7 @@ def worker(credential_queue, found_flag, target_url, total_requests):
 def print_banner():
     banner = """
     ╔═══════════════════════════════╗
-    ║          BABF v1.0            ║
+    ║          BABF v1.1            ║
     ║  Basic Auth Brute Force Tool  ║
     ║  Created by: @leddcode        ║
     ╚═══════════════════════════════╝
@@ -93,7 +93,7 @@ def attack():
     if not usernames or not passwords:
         return
 
-    credentials = [(u, p) for u in usernames for p in passwords]
+    credentials = [(u, p) for p in passwords for u in usernames]
     total_requests = len(credentials)
     
     with print_lock:
